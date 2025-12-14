@@ -2,7 +2,7 @@
 
 An interactive command-line interface that lets you chat with AI girl characters, each with their own unique personality and style.
 
-![Demo](https://raw.githubusercontent.com/1dev-hridoy/cli-gf/main/demo.gif)
+![Demo](https://raw.githubusercontent.com/1dev-hridoy/1dev-hridoy/refs/heads/main/npx-cli-gf.png)
 
 ## Features
 
