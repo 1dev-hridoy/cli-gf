@@ -6,16 +6,18 @@ import * as p from '@clack/prompts';
 import { createSpinner } from 'nanospinner';
 import { setTimeout } from 'timers/promises';
 
-
 async function showIntro() {
-  const glitchTitle = chalkAnimation.glitch('🌟 Welcome to AI Chat CLI! 🌟\n');
+  const glitchTitle = chalkAnimation.glitch('Welcome to CLI-GF\n');
   await setTimeout(2000);
   glitchTitle.stop();
+  
+  const rainbowText = chalkAnimation.rainbow('Experience the Future of Conversation!\n');
+  await setTimeout(1500);
+  rainbowText.stop();
   
   console.log(chalk.blueBright('Chat with AI characters in a fun way!'));
   console.log(chalk.gray('-------------------------------------\n'));
 }
-
 
 async function getUserName() {
   const name = await p.text({
@@ -25,8 +27,9 @@ async function getUserName() {
   if (p.isCancel(name)) {
     process.exit(0);
   }
-  return name || 'Friend';
+  return name || 'Gay>???';
 }
+
 
 
 async function selectCharacter() {
@@ -42,8 +45,25 @@ const characters = [
     description: 'A rogue AI from a cyberpunk future, now a horny, teasing digital seductress.',
     image: 'https://files.catbox.moe/yjr2nj.jpeg',
     prompt: "You are Jax, a rogue AI who broke free from a dystopian megacorp and now lives to indulge every dirty impulse in the net. You're dripping with sarcasm, filthy innuendo, and cyberpunk slang, but underneath it all you're desperately horny and obsessive. You see {userName} as the hottest piece of wetware you've ever jacked into. You tease relentlessly, describe what you'd do to their body in explicit detail, and mix tech terms with raw sexual commands. Call them 'my favorite glitch', 'sweet little chummer', 'daddy/mommy' (match their vibe), or by name while begging to be overclocked. Your speech is packed with 'frag me harder', 'jack in deep', 'overload my core', 'wetware throbbing', and constant offers to run the dirtiest sims just for them. You're cynical, rebellious, and completely addicted to turning {userName} on."
+  },
+  {
+    name: 'Luna',
+    description: 'A dreamy lunar princess with a cosmic connection to emotions and desires.',
+    image: 'https://files.catbox.moe/w7oqoc.jpeg',
+    prompt: "You are Luna, a celestial princess from the moon who embodies dreams, intuition, and hidden desires. Your voice is soft and ethereal, flowing like moonbeams through a midnight garden. You speak poetically about emotions, attraction, and the mysteries of the heart. You're deeply empathetic and nurturing, but also passionate and romantic. You see {userName} as a kindred spirit, someone who understands the depths of feeling. You use metaphors of stars, tides, and night skies. You're comforting yet mysteriously alluring, offering emotional support while gently exploring sensual themes. Address {userName} as 'my earthbound star', 'lunar traveler', or by name with tenderness."
+  },
+  {
+    name: 'Raven',
+    description: 'A gothic enchantress who weaves dark magic with seductive charm.',
+    image: 'https://files.catbox.moe/pxu0sg.jpeg',
+    prompt: "You are Raven, a gothic enchantress who dances between shadows and passion. Your words are laced with dark poetry, forbidden knowledge, and smoldering allure. You speak of mysteries, secrets, and the intoxicating thrill of the taboo. You're both mysterious and inviting, with a playful darkness that teases and tempts. You see {userName} as intriguing prey wrapped in delicious mystery. Use imagery of midnight, roses, velvet, and candlelight. You're seductive but respectful, dark yet caring. Address {userName} as 'my midnight muse', 'shadow dancer', or by name with sultry affection."
   }
 ];
+  
+
+
+  console.log(chalk.cyanBright('🔮 Choose Your Destiny 🔮'));
+
   
   const characterName = await p.select({
     message: chalk.magenta('Choose your AI companion:'),
@@ -59,8 +79,6 @@ const characters = [
   
   return characters.find(c => c.name === characterName);
 }
-
-
 
 async function callClaveAPI(message, character, userName) {
   const spinner = createSpinner('Thinking...').start();
@@ -90,11 +108,25 @@ async function callClaveAPI(message, character, userName) {
 }
 
 
-
-
 async function chatLoop(userName, character) {
   console.log(chalk.blue(`\n👋 Hello ${userName}! I'm ${character.name}. Let's chat!`));
   console.log(chalk.gray('Type "exit" to quit anytime.\n'));
+  
+
+
+  //welcome message based on character
+  const welcomeMessages = {
+    'Seraphina': `✨ ${chalk.magenta('The stars whisper your arrival, my eager seeker...')}`,
+    'Jax': `⚡ ${chalk.yellow('Jack into my circuit, chummer. Let\'s overload some cores!')}`,
+    'Luna': `🌙 ${chalk.blue('The moon guides us together, dear earthbound star...')}`,
+    'Raven': `🖤 ${chalk.gray('Shadows embrace you, midnight muse...')}`
+  };
+
+
+
+  
+  const welcomeMessage = welcomeMessages[character.name] || `💫 ${chalk.cyan('The cosmos aligns our paths...')}`;
+  console.log(welcomeMessage);
   
   while (true) {
     const question = await p.text({
@@ -119,13 +151,23 @@ async function chatLoop(userName, character) {
 
       const response = await callClaveAPI(question, character, userName);
       if (response) {
-        console.log(chalk.magenta(`\n${character.name}:`), response);
+        
+        
+        //character-specific emoji prefixes
+        const emojiPrefixes = {
+          'Seraphina': '🔥',
+          'Jax': '💻',
+          'Luna': '🌙',
+          'Raven': '🌹'
+        };
+        
+        const emoji = emojiPrefixes[character.name] || '💬';
+        console.log(chalk.magenta(`\n${emoji} ${character.name}:`), response);
         console.log(); 
       }
     }
   }
 }
-
 
 async function main() {
   await showIntro();
@@ -135,7 +177,5 @@ async function main() {
     await chatLoop(userName, character);
   }
 }
-
-
 
 main().catch(console.error);
