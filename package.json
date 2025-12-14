@@ -1,10 +1,10 @@
 {
-  "name": "awesome-cli-demo",
+  "name": "cli-gf",
   "version": "1.0.0",
-  "description": "A sample CLI application demonstrating chalk, chalk-animation, inquirer, nanospinner, and clack-prompts",
+  "description": "An interactive CLI with AI girl characters for engaging conversations",
   "main": "index.js",
   "bin": {
-    "awesome-cli": "index.js"
+    "cli-gf": "index.js"
   },
   "scripts": {
     "start": "node index.js",
@@ -12,14 +12,23 @@
   },
   "keywords": [
     "cli",
-    "demo",
-    "chalk",
-    "inquirer",
-    "nanospinner"
+    "ai",
+    "chat",
+    "girlfriend",
+    "interactive",
+    "conversation"
   ],
-  "author": "Developer",
+  "author": "1dev-hridoy",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1dev-hridoy/cli-gf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1dev-hridoy/cli-gf/issues"
+  },
+  "homepage": "https://github.com/1dev-hridoy/cli-gf#readme",
   "dependencies": {
     "@clack/prompts": "^0.11.0",
     "chalk": "^5.6.2",
