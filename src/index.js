@@ -32,11 +32,11 @@ async function selectCharacter() {
 
 
 
-   
+
     options.push({
         value: 'custom',
         label: `✨ Create Custom Character - ${chalk.gray('Design your own companion')}`
-});
+    });
 
 
 
@@ -75,7 +75,7 @@ async function createCustomCharacter() {
     return {
         name: name,
         description: description,
-        image: '', 
+        image: '',
         prompt: promptTemplate
     };
 }
@@ -91,7 +91,9 @@ async function chatLoop(userName, character) {
 
     const welcomeMessage = getWelcomeMessage(character.name);
     console.log(welcomeMessage);
-    transcript += `${character.name}: ${welcomeMessage}\n`; 
+    transcript += `${character.name}: ${welcomeMessage}\n`;
+
+    const history = []; // Store string }
 
     while (true) {
         const question = await p.text({
@@ -134,7 +136,7 @@ async function chatLoop(userName, character) {
             continue;
         }
 
-        const response = await callClaveAPI(input, character, userName);
+        const response = await callClaveAPI(input, character, userName, history);
         if (response) {
             const emoji = getCharacterEmoji(character.name);
             process.stdout.write(chalk.magenta(`\n${emoji} ${character.name}: `));
@@ -143,6 +145,12 @@ async function chatLoop(userName, character) {
             console.log();
 
             transcript += `${character.name}: ${response}\n`;
+
+
+            history.push({ user: input, ai: response });
+            if (history.length > 50) {
+                history.shift();
+            }
         }
     }
 }

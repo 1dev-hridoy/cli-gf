@@ -1,13 +1,23 @@
 import { createSpinner } from 'nanospinner';
 import chalk from 'chalk';
 
-export async function callClaveAPI(message, character, userName) {
+export async function callClaveAPI(message, character, userName, history = []) {
     const spinner = createSpinner('Thinking...').start();
 
     try {
         const systemPrompt = character.prompt.replace(/{userName}/g, userName);
 
-        const combinedMessage = `${systemPrompt}\n\nUser: ${message}`;
+        //format history context
+        const historyContext = history.map(entry => {
+            return `User: ${entry.user}\n${character.name}: ${entry.ai}`;
+        }).join('\n\n');
+
+        //merge system prompt, history, and new message
+        let combinedMessage = systemPrompt;
+        if (historyContext) {
+            combinedMessage += `\n\n--- Past Conversation ---\n${historyContext}\n-----------------------`;
+        }
+        combinedMessage += `\n\nUser: ${message}`;
 
         const response = await fetch('https://clave-app.onrender.com/api/ischat', {
             method: 'POST',
@@ -16,7 +26,7 @@ export async function callClaveAPI(message, character, userName) {
             },
             body: JSON.stringify({
                 message: combinedMessage,
-                model: 'gpt-oss-120b'
+                model: 'grok-3-mini'
             })
         });
 
