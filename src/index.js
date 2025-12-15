@@ -1,4 +1,3 @@
-
 import chalk from 'chalk';
 import chalkAnimation from 'chalk-animation';
 import * as p from '@clack/prompts';
