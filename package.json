@@ -1,6 +1,6 @@
 {
   "name": "cli-gf",
-  "version": "1.0.2",
+  "version": "2.0.2",
   "description": "An interactive CLI with AI girl characters for engaging conversations",
   "main": "index.js",
   "bin": {
